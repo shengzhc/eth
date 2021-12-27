@@ -1,9 +1,9 @@
 async function main() {
-    const AnnoucementBoard = await ethers.getContractFactory("AnnoucementBoard");
+    const AnnouncementBoard = await ethers.getContractFactory("AnnouncementBoard");
  
     // Start deployment, returning a promise that resolves to a contract object
-    const annoucement_board = await AnnoucementBoard.deploy("Hello World!");   
-    console.log("Contract deployed to address:", annoucement_board.address);
+    const announcement_board = await AnnouncementBoard.deploy(10);   
+    console.log("Contract deployed to address:", announcement_board.address);
  }
  
  main()

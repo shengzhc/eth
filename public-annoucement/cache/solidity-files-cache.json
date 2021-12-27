@@ -1,0 +1,41 @@
+{
+  "_format": "hh-sol-cache-2",
+  "files": {
+    "/Users/shengzhc/Desktop/ethereum/public-annoucement/contracts/AnnouncementBoard.sol": {
+      "lastModificationDate": 1640642050700,
+      "contentHash": "918f404e53246f8f0c74f4965923ba61",
+      "sourceName": "contracts/AnnouncementBoard.sol",
+      "solcConfig": {
+        "version": "0.7.3",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.7.0"
+      ],
+      "artifacts": [
+        "AnnouncementBoard",
+        "owned"
+      ]
+    }
+  }
+}

@@ -27,14 +27,14 @@ contract AnnouncementBoard is owned {
     uint private maxAnnouncementCount;
     Announcement[] public announcements;
 
-    constructor(uint memory _maxAnnouncementCount) {
+    constructor(uint _maxAnnouncementCount) {
         maxAnnouncementCount = _maxAnnouncementCount;
     }
 
     function announce(string memory _announcement) public {
         require(
             announcements.length < maxAnnouncementCount,
-            "Abort announcing...(Board has exceeded max limit)",
+            "Abort announcing...(Board has exceeded max limit)"
         );
 
         announcements.push(Announcement(msg.sender, _announcement));
