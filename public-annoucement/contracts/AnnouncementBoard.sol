@@ -1,6 +1,7 @@
 // Specifies the version of Solidity, using semantic versioning.
 // Learn more: https://solidity.readthedocs.io/en/v0.5.10/layout-of-source-files.html#pragma
-pragma solidity ^0.7.0;
+pragma solidity ^0.8.2;
+pragma experimental ABIEncoderV2;
 
 contract AnnouncementBoard {
 
@@ -27,6 +28,10 @@ contract AnnouncementBoard {
         maxAnnouncementCount = _maxAnnouncementCount;
         announcementCounter = 0;
         takendownAnnouncementCounter = 0;
+    }
+
+    function getAnnouncementsCount() public view returns (uint) {
+        return announcementCounter;
     }
 
     function announce(string memory _announcement) public returns (uint) {
@@ -63,4 +68,43 @@ contract AnnouncementBoard {
         takendownAnnouncements[nonce] = announcement;
         takendownAnnouncementCounter++;
     }
+
+    function getAliveAnnouncements()
+        external
+        view
+        returns (string[] memory, uint[] memory)
+    {
+        string[] memory contentList = new string[](announcementCounter);
+        uint[] memory nonceList = new uint[](announcementCounter);
+        uint totalCounter = 
+            announcementCounter + takendownAnnouncementCounter;
+        uint aliveIdx = 0;
+        for (uint i=1; i <= totalCounter; i++) {
+            Announcement memory ann = announcements[i];
+            if (ann.nonce > 0 && ann.nonce == i) {
+                contentList[aliveIdx] = ann.content;
+                nonceList[aliveIdx] = ann.nonce;
+                aliveIdx++;
+            }
+        }
+        return (contentList, nonceList);
+    }
+
+    // function getAliveAnnouncements()
+    //     external
+    //     view
+    //     returns (Announcement[] memory)
+    // {
+    //     Announcement[] memory l = new Announcement[](announcementCounter);
+    //     uint lIndex = 0;
+    //     uint totalCounter = 
+    //         announcementCounter + takendownAnnouncementCounter;
+    //     for (uint i=1; i <= totalCounter; i++) {
+    //         Announcement memory ann = announcements[i];
+    //         if (ann.nonce > 0 && ann.nonce == i) {
+    //             l[lIndex] = ann;
+    //         }
+    //     }
+    //     return l;
+    // }
 }
