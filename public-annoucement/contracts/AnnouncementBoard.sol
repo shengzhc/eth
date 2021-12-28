@@ -89,22 +89,4 @@ contract AnnouncementBoard {
         }
         return (contentList, nonceList);
     }
-
-    // function getAliveAnnouncements()
-    //     external
-    //     view
-    //     returns (Announcement[] memory)
-    // {
-    //     Announcement[] memory l = new Announcement[](announcementCounter);
-    //     uint lIndex = 0;
-    //     uint totalCounter = 
-    //         announcementCounter + takendownAnnouncementCounter;
-    //     for (uint i=1; i <= totalCounter; i++) {
-    //         Announcement memory ann = announcements[i];
-    //         if (ann.nonce > 0 && ann.nonce == i) {
-    //             l[lIndex] = ann;
-    //         }
-    //     }
-    //     return l;
-    // }
 }
