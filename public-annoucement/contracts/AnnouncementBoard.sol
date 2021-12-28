@@ -2,41 +2,65 @@
 // Learn more: https://solidity.readthedocs.io/en/v0.5.10/layout-of-source-files.html#pragma
 pragma solidity ^0.7.0;
 
-contract owned {
-    constructor() { owner = payable(msg.sender); }
-    address payable owner;
-
-    modifier onlyOwner {
-        require(
-            msg.sender == owner,
-            "Only owner can call this function."
-        );
-        _;
-    }
-}
-
-contract AnnouncementBoard is owned {
+contract AnnouncementBoard {
 
     // Declare a struct type to present an Announcement which will be used as 
     // basic unit stored in smart contract.
     struct Announcement {
         address publisher;
         string content;
+        uint nonce;
     }
 
+    // Declare a number to cap the maximum amount of announcements allowed.
     uint private maxAnnouncementCount;
-    Announcement[] public announcements;
+
+    // Declare a mapping to store announcements and a counter to tell how many
+    // announcements are published, not including takendowns.
+    uint private announcementCounter;
+    mapping(uint => Announcement) private announcements;
+
+    uint private takendownAnnouncementCounter;
+    mapping(uint => Announcement) private takendownAnnouncements;
 
     constructor(uint _maxAnnouncementCount) {
         maxAnnouncementCount = _maxAnnouncementCount;
+        announcementCounter = 0;
+        takendownAnnouncementCounter = 0;
     }
 
-    function announce(string memory _announcement) public {
+    function announce(string memory _announcement) public returns (uint) {
+        uint nonce = announcementCounter + takendownAnnouncementCounter + 1;
         require(
-            announcements.length < maxAnnouncementCount,
+            nonce <= maxAnnouncementCount,
             "Abort announcing...(Board has exceeded max limit)"
         );
 
-        announcements.push(Announcement(msg.sender, _announcement));
+        // Create and insert the announcement.
+        Announcement memory value = 
+            Announcement(msg.sender, _announcement, nonce);
+        announcements[nonce] = value;
+
+        // Increase the number of announcements created.
+        announcementCounter++;
+
+        // Return the key in the alive board.
+        return nonce;
+    }
+
+    function takedown(uint nonce) public {
+        Announcement memory announcement = announcements[nonce];
+        require(
+            announcement.nonce > 0,
+            "Attest that announcement is still alive"
+        );
+        
+        // Remove the announcement from alive board.
+        delete announcements[nonce];
+        announcementCounter--;
+
+        // Add the announcement to the takendown board.
+        takendownAnnouncements[nonce] = announcement;
+        takendownAnnouncementCounter++;
     }
 }
