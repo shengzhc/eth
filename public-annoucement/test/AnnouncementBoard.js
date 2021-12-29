@@ -30,10 +30,13 @@ describe("AnnouncementBoard contract", function () {
         await ethers.getContractFactory("AnnouncementBoard");
       const board = await AnnouncementBoard.deploy(3);
       await board.deployed();
-      await (await board.announce("1st Announcement")).wait();
-      await (await board.announce("2st Announcement")).wait();
-      await (await board.announce("3st Announcement")).wait();
-      await (await board.announce("4st Announcement")).wait();
+      try {
+        await (await board.announce("1st Announcement")).wait();
+        await (await board.announce("2nd Announcement")).wait();
+        await (await board.announce("3rd Announcement")).wait();
+        await (await board.announce("4th Announcement")).wait();
+      } catch (_) {
+      }
       expect((await board.getAnnouncementsCount()).toNumber()).to.eq(3);
     }
   );
