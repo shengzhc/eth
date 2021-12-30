@@ -1,5 +1,6 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
+const abi = require("../artifacts/contracts/AnnouncementBoard.sol/AnnouncementBoard.json");
 
 describe("AnnouncementBoard contract", function () {
   it("Deployment should have default 0 counters", async function () {
@@ -40,4 +41,20 @@ describe("AnnouncementBoard contract", function () {
       expect((await board.getAnnouncementsCount()).toNumber()).to.eq(3);
     }
   );
+
+  it(
+    "Deployment announce and takedown should match expected values",
+    async function () {
+      const AnnouncementBoard = 
+        await ethers.getContractFactory("AnnouncementBoard");
+      const board = await AnnouncementBoard.deploy(10);
+      await board.deployed();
+      const firstReceipt = await (await board.announce("1st Announcement")).wait();
+      const firstEvent = firstReceipt.events.find(function (el) {
+        return el.event == 'Announce';
+      });
+      console.log(firstEvent);
+      ethers.utils.defaultAbiCoder.decode(["address", "uint"], firstEvent.data);
+    }
+  )
 });

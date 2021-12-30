@@ -24,6 +24,8 @@ contract AnnouncementBoard {
     uint private takendownAnnouncementCounter;
     mapping(uint => Announcement) private takendownAnnouncements;
 
+    event Announce(address publisher, uint nonce);
+
     constructor(uint _maxAnnouncementCount) {
         maxAnnouncementCount = _maxAnnouncementCount;
         announcementCounter = 0;
@@ -50,6 +52,7 @@ contract AnnouncementBoard {
         announcementCounter++;
 
         // Return the key in the alive board.
+        emit Announce(msg.sender, nonce);
         return nonce;
     }
 
