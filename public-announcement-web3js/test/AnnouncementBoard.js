@@ -34,7 +34,18 @@ describe("AnnouncementBoard contract", function () {
       assert.equal(await board.getAnnouncementsCount(), 3);
     });
     
-    it("Takedown should decrease the number", async function () {
+    it.only("Takedown should decrease the number", async function () {
+      const board = await AnnouncementBoard.new(3);
+      await board.announce("1st Publishment");
+      const log = (await board.announce("2nd Publishment")).logs.find(
+        function (el) {
+          return el.event == "Announce";
+        }
+      );
+      const publisher = log.args.publisher;
+      const nonce = log.args.nonce;
+      await board.takedown(nonce.toNumber());
+      assert.equal(await board.getAnnouncementsCount(), 1);
     });
   });
 });
