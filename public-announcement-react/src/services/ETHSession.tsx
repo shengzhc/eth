@@ -20,4 +20,21 @@ export default class ETHSession {
       return true;
     }
   }
+
+  async connectWalletIfNeeded(): Promise<string | null> {
+    const { ethereum } = window;
+    if (!ethereum) {
+      alert("Please install Metamask Extensions!");
+    } else {
+      console.log("Wallet exists! We're ready to go!");
+    }
+
+    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+    if (accounts.length !== 0) {
+      return accounts[0];
+    } else {
+      alert("No authorized account found");
+      return null;
+    }
+  }
 }

@@ -20,15 +20,15 @@ class App extends React.Component<any, AppState> {
     );
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     var session = this.state.session;
     if (!session) {
       session = new ETHSession();
       this.setState({session});
     }
-    session.isWalletConnected();
+    const accountAddress = await session.connectWalletIfNeeded();
+    console.log(accountAddress);
   }
 }
-
 
 export default App;
