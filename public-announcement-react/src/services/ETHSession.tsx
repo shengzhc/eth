@@ -10,6 +10,12 @@ declare global {
 }
 
 export default class ETHSession {
+  private accountAddress?: string;
+
+  getAccountAddress(): string | undefined {
+    return this.accountAddress;
+  }
+
   isWalletConnected(): boolean {
     const { ethereum } = window;
     if (!ethereum) {
@@ -21,7 +27,7 @@ export default class ETHSession {
     }
   }
 
-  async connectWalletIfNeeded(): Promise<string | null> {
+  async connectWalletIfNeeded(): Promise<string | undefined> {
     const { ethereum } = window;
     if (!ethereum) {
       alert("Please install Metamask Extensions!");
@@ -31,10 +37,11 @@ export default class ETHSession {
 
     const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
     if (accounts.length !== 0) {
-      return accounts[0];
+      this.accountAddress = accounts[0];
+      return this.accountAddress;
     } else {
       alert("No authorized account found");
-      return null;
+      return undefined;
     }
   }
 }
