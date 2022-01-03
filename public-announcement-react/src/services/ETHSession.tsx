@@ -1,4 +1,5 @@
 import AnnouncementBoard from '../contracts/AnnouncementBoard.json';
+import Announcement from '../models/Announcement';
 
 const scAddress = "0x8766D1D0c82704C6Dff2E235CF76e348a8d2D128";
 const scABI = AnnouncementBoard.abi;
@@ -43,5 +44,9 @@ export default class ETHSession {
       alert("No authorized account found");
       return undefined;
     }
+  }
+
+  async loadAnnouncements(): Promise<Array<Announcement>> {
+    return [];
   }
 }
