@@ -16,10 +16,7 @@ class AnnouncementBoard extends React.Component<AnnouncementBoardProps> {
           this.props.announcements.map(function (item, idx, items) {
             return (
               <React.Fragment>
-                <AnnouncementItem
-                  addr={item.addr}
-                  content={item.content}
-                  nonce={item.nonce} />
+                <AnnouncementItem announcement={item}/>
                 {idx + 1 < items.length
                   ? <Divider variant="inset" component="li" />
                   : null}
