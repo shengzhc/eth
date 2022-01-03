@@ -20,11 +20,9 @@ class AnnouncementItem extends React.Component<AnnouncementItemProps> {
     return (
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar 
-            sx={{ bgcolor: StringColorUtils.stringToHexColor(this.props.addr) }} 
-          />
+          <Avatar  sx={{ bgcolor: StringColorUtils.stringToHexColor(this.props.addr) }}/>
         </ListItemAvatar>
-        <ListItemText primary={this.props.content} />
+        <ListItemText primary={this.props.content} secondary={this.props.addr}/>
       </ListItem>
     );
   }
