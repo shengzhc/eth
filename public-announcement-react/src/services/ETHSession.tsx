@@ -38,12 +38,11 @@ export default class ETHSession {
     this.accountAddress = accounts[0];
     this.web3 = new Web3(ethereum);
     this.contract = new this.web3.eth.Contract(abi, contractAddress);
-    await this.loadAnnouncements();
     return true;
   }
 
   async loadAnnouncements(): Promise<Array<Announcement>> {
-    if (!this.contract) {
+    if (!this.contract || !this.web3) {
       return [];
     }
 

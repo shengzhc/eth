@@ -21,12 +21,15 @@ class App extends React.Component<any, AppState> {
   }
 
   async componentDidMount() {
-    var session = this.state.session;
+    let session = this.state.session;
     if (!session) {
       session = new ETHSession();
       this.setState({session});
     }
-    await session.connectWalletIfNeeded();
+
+    if (await session.connectWalletIfNeeded()) {
+      await session.loadAnnouncements();
+    }
   }
 }
 
