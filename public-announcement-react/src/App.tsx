@@ -26,8 +26,7 @@ class App extends React.Component<any, AppState> {
       session = new ETHSession();
       this.setState({session});
     }
-    const accountAddress = await session.connectWalletIfNeeded();
-    console.log(accountAddress);
+    await session.connectWalletIfNeeded();
   }
 }
 

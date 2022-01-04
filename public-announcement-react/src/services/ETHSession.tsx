@@ -1,8 +1,9 @@
-import AnnouncementBoard from '../contracts/AnnouncementBoard.json';
-import Announcement from '../models/Announcement';
+import Announcement from './../models/Announcement';
+import Web3 from 'web3';
+import { Contract } from 'web3-eth-contract';
 
-const scAddress = "0x8766D1D0c82704C6Dff2E235CF76e348a8d2D128";
-const scABI = AnnouncementBoard.abi;
+const contractAddress = "0x8766D1D0c82704C6Dff2E235CF76e348a8d2D128";
+const { abi } = require('./../contracts/AnnouncementBoard.json');
 
 declare global {
   interface Window {
@@ -12,41 +13,39 @@ declare global {
 
 export default class ETHSession {
   private accountAddress?: string;
+  private web3?: Web3;
 
   getAccountAddress(): string | undefined {
     return this.accountAddress;
   }
 
-  isWalletConnected(): boolean {
-    const { ethereum } = window;
-    if (!ethereum) {
-      console.log("make sure you have metamask installed!");
-      return false;
-    } else {
-      console.log("Wallet exists! We're ready to go!");
-      return true;
-    }
-  }
-
-  async connectWalletIfNeeded(): Promise<string | undefined> {
+  async connectWalletIfNeeded(): Promise<boolean> {
     const { ethereum } = window;
     if (!ethereum) {
       alert("Please install Metamask Extensions!");
+      return false;
     } else {
       console.log("Wallet exists! We're ready to go!");
     }
 
     const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-    if (accounts.length !== 0) {
-      this.accountAddress = accounts[0];
-      return this.accountAddress;
-    } else {
+    if (accounts.length === 0) {
       alert("No authorized account found");
-      return undefined;
+      return false;
     }
+
+    this.accountAddress = accounts[0];
+    this.web3 = new Web3(ethereum);
+    await this.loadAnnouncements();
+    return true;
   }
 
   async loadAnnouncements(): Promise<Array<Announcement>> {
+    const web3 = new Web3(window.ethereum);
+    const contract = new web3.eth.Contract(abi, contractAddress);
+    contract.methods.getAliveAnnouncements().call().then(console.log);
+    const ret = await contract.methods.getAliveAnnouncements().call();
+    console.log(ret);
     return [];
   }
 }
