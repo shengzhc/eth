@@ -1,0 +1,58 @@
+
+> public-announcement-react@0.1.0 start
+> react-app-rewired start
+
+{ parser: { requireEnsure: false } }
+{
+  oneOf: [
+    {
+      test: [Array],
+      loader: '/Users/shengzhc/Desktop/ethereum/public-announcement-react/node_modules/url-loader/dist/cjs.js',
+      options: [Object]
+    },
+    {
+      test: /\.(js|mjs|jsx|ts|tsx)$/,
+      include: '/Users/shengzhc/Desktop/ethereum/public-announcement-react/src',
+      loader: '/Users/shengzhc/Desktop/ethereum/public-announcement-react/node_modules/babel-loader/lib/index.js',
+      options: [Object]
+    },
+    {
+      test: /\.(js|mjs)$/,
+      exclude: /@babel(?:\/|\\{1,2})runtime/,
+      loader: '/Users/shengzhc/Desktop/ethereum/public-announcement-react/node_modules/babel-loader/lib/index.js',
+      options: [Object]
+    },
+    {
+      test: /\.css$/,
+      exclude: /\.module\.css$/,
+      use: [Array],
+      sideEffects: true
+    },
+    { test: /\.module\.css$/, use: [Array] },
+    {
+      test: /\.(scss|sass)$/,
+      exclude: /\.module\.(scss|sass)$/,
+      use: [Array],
+      sideEffects: true
+    },
+    { test: /\.module\.(scss|sass)$/, use: [Array] },
+    {
+      loader: '/Users/shengzhc/Desktop/ethereum/public-announcement-react/node_modules/file-loader/dist/cjs.js',
+      exclude: [Array],
+      options: [Object]
+    }
+  ]
+}
+Starting the development server...
+
+Failed to compile.
+
+./src/services/ETHSession.tsx 97:30
+Module parse failed: Unexpected token (97:30)
+You may need an appropriate loader to handle this file type.
+|             switch (_context2.prev = _context2.next) {
+|               case 0:
+>                 this.contract?.methods.getAliveAnnouncements().call().then(console.log); // let ret = await this.contract?.methods.getAliveAnnouncements().call();
+|                 // console.log(ret);
+|
+Compiling...

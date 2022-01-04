@@ -1,9 +1,9 @@
-import Announcement from './../models/Announcement';
+import Announcement from '../models/Announcement';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
 
 const contractAddress = "0x8766D1D0c82704C6Dff2E235CF76e348a8d2D128";
-const { abi } = require('./../contracts/AnnouncementBoard.json');
+const { abi } = require('../contracts/AnnouncementBoard.json');
 
 declare global {
   interface Window {
@@ -14,6 +14,7 @@ declare global {
 export default class ETHSession {
   private accountAddress?: string;
   private web3?: Web3;
+  private contract?: Contract;
 
   getAccountAddress(): string | undefined {
     return this.accountAddress;
@@ -36,16 +37,15 @@ export default class ETHSession {
 
     this.accountAddress = accounts[0];
     this.web3 = new Web3(ethereum);
+    this.contract = new this.web3.eth.Contract(abi, contractAddress);
     await this.loadAnnouncements();
     return true;
   }
 
   async loadAnnouncements(): Promise<Array<Announcement>> {
-    const web3 = new Web3(window.ethereum);
-    const contract = new web3.eth.Contract(abi, contractAddress);
-    contract.methods.getAliveAnnouncements().call().then(console.log);
-    const ret = await contract.methods.getAliveAnnouncements().call();
-    console.log(ret);
+    // this.contract?.methods.getAliveAnnouncements().call().then(console.log);
+    // let ret = await this.contract?.methods.getAliveAnnouncements().call();
+    // console.log(ret);
     return [];
   }
 }
