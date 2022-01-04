@@ -43,9 +43,12 @@ export default class ETHSession {
   }
 
   async loadAnnouncements(): Promise<Array<Announcement>> {
-    // this.contract?.methods.getAliveAnnouncements().call().then(console.log);
-    // let ret = await this.contract?.methods.getAliveAnnouncements().call();
-    // console.log(ret);
+    if (!this.contract) {
+      return [];
+    }
+
+    let ret = await this.contract.methods.getAliveAnnouncements().call();
+    console.log(ret);
     return [];
   }
 }
