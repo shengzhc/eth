@@ -11,6 +11,8 @@ declare global {
   }
 }
 
+// Having some troubles configuring TS with Webpack, so instead of using ? on
+// optional properties, checking the nullability first.
 export default class ETHSession {
   private accountAddress?: string;
   private web3?: Web3;
@@ -49,5 +51,17 @@ export default class ETHSession {
     let ret = await this.contract.methods.getAliveAnnouncements().call();
     console.log(ret);
     return [];
+  }
+
+  async announce(content: string): Promise<boolean> {
+    if (!this.contract || !this.web3 || !this.accountAddress) {
+      return false;
+    }
+    const tx =
+      await this.contract
+        .methods
+        .announce(content)
+        .send({ from: this.accountAddress });
+    return tx ? true : false;
   }
 }

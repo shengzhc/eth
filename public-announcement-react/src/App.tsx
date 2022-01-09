@@ -4,7 +4,7 @@ import ETHSession from './services/ETHSession';
 import AnnounceBox from './components/AnnounceBox';
 
 interface AppState {
-  session?: ETHSession | null,
+  session: ETHSession | null,
 }
 
 class App extends React.Component<any, AppState> {
@@ -18,7 +18,7 @@ class App extends React.Component<any, AppState> {
   render() {
     return (
       <div>
-        <AnnounceBox />
+        <AnnounceBox ethSession={this.state.session}/>
       </div>
     );
   }

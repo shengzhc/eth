@@ -2,9 +2,13 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { any } from 'prop-types';
+import ETHSession from '../services/ETHSession';
 
-class AnnounceBox extends React.Component<any, any> {
+interface AnnounceBoxProps {
+  ethSession: ETHSession | null
+}
+
+class AnnounceBox extends React.Component<AnnounceBoxProps> {
   render() {
     return (
       <Box
@@ -30,7 +34,11 @@ class AnnounceBox extends React.Component<any, any> {
     );
   }
 
-  announceBtnClicked() {
+  async announceBtnClicked() {
+    if (!this.props.ethSession) {
+      return;
+    }
+
     const textField = 
       document.getElementById('announce-content-text-input') as HTMLInputElement;
     if (!textField) {
@@ -41,6 +49,11 @@ class AnnounceBox extends React.Component<any, any> {
     if (content.length < 1) {
       alert("Please at least enter sth");
       return;
+    }
+    if (await this.props.ethSession.announce(content)) {
+      // Successfully generate the tx, but not mined yet
+    } else {
+      // Error happens, tx is defintely failed to be submitted
     }
   }
 }
