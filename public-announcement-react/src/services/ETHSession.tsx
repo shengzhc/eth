@@ -48,9 +48,14 @@ export default class ETHSession {
       return [];
     }
 
-    let ret = await this.contract.methods.getAliveAnnouncements().call();
-    console.log(ret);
-    return [];
+    const anonuncements = new Array<Announcement>();
+    const ret = await this.contract.methods.getAliveAnnouncements().call();
+    for (var idx = 0; idx < ret[0].length && idx < ret[1].length; idx ++) {
+      anonuncements.push(
+        new Announcement("Random Address", ret[0][idx], ret[1][idx])
+      );
+    }
+    return anonuncements;
   }
 
   async announce(content: string): Promise<boolean> {
