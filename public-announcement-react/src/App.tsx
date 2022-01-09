@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import ETHSession from './services/ETHSession';
+import AnnounceBox from './components/AnnounceBox';
 
 interface AppState {
   session?: ETHSession | null,
@@ -16,7 +17,9 @@ class App extends React.Component<any, AppState> {
 
   render() {
     return (
-      <div>Hello World</div>
+      <div>
+        <AnnounceBox />
+      </div>
     );
   }
 
