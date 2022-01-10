@@ -2,7 +2,7 @@ import Announcement from '../models/Announcement';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
 
-const contractAddress = "0x8766D1D0c82704C6Dff2E235CF76e348a8d2D128";
+const contractAddress = "0xBD7F1Dec5F9903F5f033D65def122870d6682417";
 const { abi } = require('../contracts/AnnouncementBoard.json');
 
 declare global {
