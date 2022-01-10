@@ -24,7 +24,7 @@ contract AnnouncementBoard {
     uint private takendownAnnouncementCounter;
     mapping(uint => Announcement) private takendownAnnouncements;
 
-    event Announce(address publisher, uint nonce);
+    event Announce(address publisher, string content, uint nonce);
 
     constructor(uint _maxAnnouncementCount) {
         maxAnnouncementCount = _maxAnnouncementCount;
@@ -52,7 +52,7 @@ contract AnnouncementBoard {
         announcementCounter++;
 
         // Return the key in the alive board.
-        emit Announce(msg.sender, nonce);
+        emit Announce(msg.sender, _announcement, nonce);
         return nonce;
     }
 
@@ -75,8 +75,9 @@ contract AnnouncementBoard {
     function getAliveAnnouncements()
         external
         view
-        returns (string[] memory, uint[] memory)
+        returns (address[] memory, string[] memory, uint[] memory)
     {
+        address[] memory publisherList = new address[](announcementCounter);
         string[] memory contentList = new string[](announcementCounter);
         uint[] memory nonceList = new uint[](announcementCounter);
         uint totalCounter = 
@@ -85,11 +86,12 @@ contract AnnouncementBoard {
         for (uint i=1; i <= totalCounter; i++) {
             Announcement memory ann = announcements[i];
             if (ann.nonce > 0 && ann.nonce == i) {
+                publisherList[aliveIdx] = ann.publisher;
                 contentList[aliveIdx] = ann.content;
                 nonceList[aliveIdx] = ann.nonce;
                 aliveIdx++;
             }
         }
-        return (contentList, nonceList);
+        return (publisherList, contentList, nonceList);
     }
 }
