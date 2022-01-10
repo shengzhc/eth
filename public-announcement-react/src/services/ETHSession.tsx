@@ -43,6 +43,30 @@ export default class ETHSession {
     return true;
   }
 
+  addUpdateListener(listener: (nItem: Announcement) => void) {
+    if (!this.contract) {
+      return;
+    }
+
+    this.contract.events.Announce({})
+    .on(
+      'data', 
+      function(event: any) {
+        const ret = event.returnValues;
+        if (ret) {
+          listener(new Announcement(ret[0], ret[1], ret[2]));
+        }
+      }
+    )
+    .on(
+      'changed', 
+      function(event: any) {
+        console.log(event);
+      }
+    )
+    .on('error', console.error);
+  }
+
   async loadAnnouncements(): Promise<Array<Announcement>> {
     if (!this.contract || !this.web3) {
       return [];
@@ -50,9 +74,9 @@ export default class ETHSession {
 
     const anonuncements = new Array<Announcement>();
     const ret = await this.contract.methods.getAliveAnnouncements().call();
-    for (var idx = 0; idx < ret[0].length && idx < ret[1].length; idx ++) {
+    for (var idx = 0; idx < ret[0].length && idx < ret[1].length && idx < ret[2].length; idx ++) {
       anonuncements.push(
-        new Announcement("Random Address", ret[0][idx], ret[1][idx])
+        new Announcement(ret[0][idx], ret[1][idx], ret[2][idx])
       );
     }
     return anonuncements;

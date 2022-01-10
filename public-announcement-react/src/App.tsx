@@ -37,9 +37,24 @@ class App extends React.Component<any, AppState> {
 
     if (await session.connectWalletIfNeeded()) {
       const announcements = await session.loadAnnouncements();
-      console.log(announcements);
       this.setState({ announcements });
     }
+    session.addUpdateListener(this._didReceiveAnnouncement);
+  }
+
+  _didReceiveAnnouncement(announcement: Announcement) {
+    var announcements = Array.from(this.state.announcements);
+    const findingDuplicate = announcements.find(function(item) {
+      return item.nonce == announcement.nonce;
+    });
+    if (findingDuplicate) {
+      return;
+    }
+
+    announcements.sort(function(a: Announcement, b: Announcement) {
+      return a.nonce > b.nonce ? 1 : -1;
+    });
+    this.setState({ announcements });
   }
 }
 
