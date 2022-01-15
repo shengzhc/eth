@@ -15,7 +15,7 @@ class AnnouncementBoard extends React.Component<AnnouncementBoardProps> {
         {
           this.props.announcements.map(function (item, idx, items) {
             return (
-              <React.Fragment>
+              <React.Fragment key={item.nonce}>
                 <AnnouncementItem announcement={item}/>
                 {idx + 1 < items.length
                   ? <Divider variant="inset" component="li" />
