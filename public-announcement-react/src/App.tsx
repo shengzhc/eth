@@ -39,7 +39,11 @@ class App extends React.Component<any, AppState> {
       const announcements = await session.loadAnnouncements();
       this.setState({ announcements });
     }
-    session.addUpdateListener(this._didReceiveAnnouncement);
+    session.addUpdateListener(
+      (announcement) => {
+        this._didReceiveAnnouncement(announcement);
+      }
+    );
   }
 
   _didReceiveAnnouncement(announcement: Announcement) {
@@ -51,6 +55,8 @@ class App extends React.Component<any, AppState> {
       return;
     }
 
+    // Insert announcement and sort
+    announcements.push(announcement);
     announcements.sort(function(a: Announcement, b: Announcement) {
       return a.nonce > b.nonce ? 1 : -1;
     });
