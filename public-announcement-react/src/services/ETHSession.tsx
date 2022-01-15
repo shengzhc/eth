@@ -67,6 +67,12 @@ export default class ETHSession {
     .on('error', console.error);
   }
 
+  addRemoveListener(listener: (nItem: Announcement) => void) {
+    if (!this.contract) {
+      return;
+    }
+  }
+
   async loadAnnouncements(): Promise<Array<Announcement>> {
     if (!this.contract || !this.web3) {
       return [];
@@ -86,10 +92,24 @@ export default class ETHSession {
     if (!this.contract || !this.web3 || !this.accountAddress) {
       return false;
     }
+
     const tx =
       await this.contract
         .methods
         .announce(content)
+        .send({ from: this.accountAddress });
+    return tx ? true : false;
+  }
+
+  async remove(nonce: number): Promise<boolean> {
+    if (!this.contract || !this.web3 || !this.accountAddress) {
+      return false;
+    }
+
+    const tx = 
+      await this.contract
+        .methods
+        .takedown(nonce)
         .send({ from: this.accountAddress });
     return tx ? true : false;
   }
