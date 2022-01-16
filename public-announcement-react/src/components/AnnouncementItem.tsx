@@ -44,7 +44,7 @@ class AnnouncementItem extends React.Component<AnnouncementItemProps, Announceme
             color="error"
             disabled={!this.state.canRemove}
             onClick={() => { this.removeAnnouncement(); }}>
-            Remove
+            删除预言
           </Button>
         </Grid>
       </ListItem>

@@ -30,7 +30,7 @@ class AnnounceBox extends React.Component<AnnounceBoxProps> {
               required
               fullWidth
               id="announce-content-text-input"
-              label="Announce something?"
+              label="记录你的预言?"
             />
           </Grid>
           <Grid item xs={2}>
@@ -38,7 +38,7 @@ class AnnounceBox extends React.Component<AnnounceBoxProps> {
               variant="contained"
               size="medium"
               onClick={() => { this.announceBtnClicked(); }}>
-              Announce
+              发布预言
             </Button>
           </Grid>
 
