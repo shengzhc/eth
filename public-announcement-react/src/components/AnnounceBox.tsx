@@ -15,7 +15,7 @@ class AnnounceBox extends React.Component<AnnounceBoxProps> {
       <Box
         component="form"
         sx={{
-          '& .MuiTextField-root': { mt: 4, mb: 4, ml: 8},
+          '& .MuiTextField-root': { mt: 4, mb: 4, ml: 2},
         }}
         noValidate
         autoComplete="off">
@@ -25,7 +25,7 @@ class AnnounceBox extends React.Component<AnnounceBoxProps> {
           direction="row" 
           justifyContent="center" 
           alignItems="center">
-          <Grid item xs={9}>
+          <Grid item xs={10}>
             <TextField
               required
               fullWidth
@@ -33,7 +33,7 @@ class AnnounceBox extends React.Component<AnnounceBoxProps> {
               label="Announce something?"
             />
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <Button
               variant="contained"
               size="medium"

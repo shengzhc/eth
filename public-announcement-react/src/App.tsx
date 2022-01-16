@@ -4,6 +4,7 @@ import ETHSession from './services/ETHSession';
 import AnnounceBox from './components/AnnounceBox';
 import Announcement from './models/Announcement';
 import AnnouncementBoard from './components/AnnouncementBoard';
+import Grid from '@mui/material/Grid';
 
 interface AppState {
   session: ETHSession | null,
@@ -21,12 +22,14 @@ class App extends React.Component<any, AppState> {
 
   render() {
     return (
-      <div>
-        <AnnounceBox ethSession={this.state.session} />
-        <AnnouncementBoard 
-          announcements={this.state.announcements} 
-          ethSession={this.state.session} />
-      </div>
+      <Grid container justifyContent="center">
+        <Grid direction="column" xs={8}>
+          <AnnounceBox ethSession={this.state.session} />
+          <AnnouncementBoard
+            announcements={this.state.announcements}
+            ethSession={this.state.session} />
+        </Grid>
+      </Grid>
     );
   }
 
@@ -34,7 +37,7 @@ class App extends React.Component<any, AppState> {
     let session = this.state.session;
     if (!session) {
       session = new ETHSession();
-      this.setState({session});
+      this.setState({ session });
     }
 
     if (await session.connectWalletIfNeeded()) {
@@ -56,7 +59,7 @@ class App extends React.Component<any, AppState> {
   _didReceiveAnnouncement(announcement: Announcement) {
     console.log(announcement);
     var announcements = Array.from(this.state.announcements);
-    const findingDuplicate = announcements.find(function(item) {
+    const findingDuplicate = announcements.find(function (item) {
       return item.nonce == announcement.nonce;
     });
     if (findingDuplicate) {
@@ -65,7 +68,7 @@ class App extends React.Component<any, AppState> {
 
     // Insert announcement and sort
     announcements.push(announcement);
-    announcements.sort(function(a: Announcement, b: Announcement) {
+    announcements.sort(function (a: Announcement, b: Announcement) {
       return a.nonce > b.nonce ? 1 : -1;
     });
     this.setState({ announcements });

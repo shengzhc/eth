@@ -8,6 +8,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Announcement from './../models/Announcement';
 import ETHSession from '../services/ETHSession';
+import Grid from '@mui/material/Grid';
 
 interface AnnouncementItemProps {
   announcement: Announcement
@@ -29,21 +30,23 @@ class AnnouncementItem extends React.Component<AnnouncementItemProps, Announceme
   render() {
     return (
       <ListItem alignItems="flex-start">
-        <ListItemAvatar>
-          <Avatar {...this._addrAvatar(this.props.announcement.addr)} />
-        </ListItemAvatar>
-        <ListItemText
-          primary={this.props.announcement.content}
-          secondary={`nonce(${this.props.announcement.nonce}): ${this.props.announcement.addr}`}
-        />
-        <Button
-          variant="contained"
-          size="medium"
-          color="error"
-          disabled={!this.state.canRemove}
-          onClick={() => { this.removeAnnouncement(); }}>
-          Remove
-        </Button>
+        <Grid container direction="row" alignItems="center" justifyContent="center">
+          <ListItemAvatar>
+            <Avatar {...this._addrAvatar(this.props.announcement.addr)} />
+          </ListItemAvatar>
+          <ListItemText
+            primary={this.props.announcement.content}
+            secondary={`nonce(${this.props.announcement.nonce}): ${this.props.announcement.addr}`}
+          />
+          <Button
+            variant="contained"
+            size="medium"
+            color="error"
+            disabled={!this.state.canRemove}
+            onClick={() => { this.removeAnnouncement(); }}>
+            Remove
+          </Button>
+        </Grid>
       </ListItem>
     );
   }
