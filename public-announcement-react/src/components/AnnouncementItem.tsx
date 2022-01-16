@@ -7,12 +7,25 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Avatar from '@mui/material/Avatar';
 import Announcement from './../models/Announcement';
+import ETHSession from '../services/ETHSession';
 
 interface AnnouncementItemProps {
-  announcement: Announcement;
+  announcement: Announcement
+  ethSession: ETHSession | null
 }
 
-class AnnouncementItem extends React.Component<AnnouncementItemProps> {
+interface AnnouncementItemState {
+  canRemove: boolean
+}
+
+class AnnouncementItem extends React.Component<AnnouncementItemProps, AnnouncementItemState> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      canRemove: true,
+    };
+  }
+
   render() {
     return (
       <ListItem alignItems="flex-start">
@@ -26,6 +39,8 @@ class AnnouncementItem extends React.Component<AnnouncementItemProps> {
         <Button
           variant="contained"
           size="medium"
+          color="error"
+          disabled={!this.state.canRemove}
           onClick={() => { this.removeAnnouncement(); }}>
           Remove
         </Button>
@@ -33,7 +48,13 @@ class AnnouncementItem extends React.Component<AnnouncementItemProps> {
     );
   }
 
-  removeAnnouncement() {
+  async removeAnnouncement() {
+    if (!this.props.ethSession || !this.state.canRemove) {
+      return;
+    }
+
+    this.setState({ canRemove: false });
+    await this.props.ethSession.takedown(this.props.announcement.nonce);
   }
 
   _addrAvatar(addr: string) {

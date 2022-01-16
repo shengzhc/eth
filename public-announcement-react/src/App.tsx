@@ -23,7 +23,9 @@ class App extends React.Component<any, AppState> {
     return (
       <div>
         <AnnounceBox ethSession={this.state.session} />
-        <AnnouncementBoard announcements={this.state.announcements} />
+        <AnnouncementBoard 
+          announcements={this.state.announcements} 
+          ethSession={this.state.session} />
       </div>
     );
   }

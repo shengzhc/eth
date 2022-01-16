@@ -120,7 +120,7 @@ export default class ETHSession {
     return tx ? true : false;
   }
 
-  async remove(nonce: number): Promise<boolean> {
+  async takedown(nonce: number): Promise<boolean> {
     if (!this.contract || !this.web3 || !this.accountAddress) {
       return false;
     }
