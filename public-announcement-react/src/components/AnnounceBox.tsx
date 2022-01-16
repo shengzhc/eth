@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ETHSession from '../services/ETHSession';
+import Grid from '@mui/material/Grid';
 
 interface AnnounceBoxProps {
   ethSession: ETHSession | null
@@ -14,22 +15,34 @@ class AnnounceBox extends React.Component<AnnounceBoxProps> {
       <Box
         component="form"
         sx={{
-          '& .MuiTextField-root': { mt: 4, mb: 4, ml: '10%', maxWidth: '80%' },
+          '& .MuiTextField-root': { mt: 4, mb: 4, ml: 8},
         }}
         noValidate
         autoComplete="off">
-        <TextField
-          required
-          fullWidth
-          id="announce-content-text-input"
-          label="Announce something?"
-        />
-        <Button
-          variant="contained"
-          size="medium"
-          onClick={() => {this.announceBtnClicked();}}>
-          Announce
-        </Button>
+        <Grid 
+          container 
+          spacing={12} 
+          direction="row" 
+          justifyContent="center" 
+          alignItems="center">
+          <Grid item xs={9}>
+            <TextField
+              required
+              fullWidth
+              id="announce-content-text-input"
+              label="Announce something?"
+            />
+          </Grid>
+          <Grid item xs={3}>
+            <Button
+              variant="contained"
+              size="medium"
+              onClick={() => { this.announceBtnClicked(); }}>
+              Announce
+            </Button>
+          </Grid>
+
+        </Grid>
       </Box>
     );
   }
@@ -39,7 +52,7 @@ class AnnounceBox extends React.Component<AnnounceBoxProps> {
       return;
     }
 
-    const textField = 
+    const textField =
       document.getElementById('announce-content-text-input') as HTMLInputElement;
     if (!textField) {
       return;
