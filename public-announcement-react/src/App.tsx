@@ -23,7 +23,7 @@ class App extends React.Component<any, AppState> {
   render() {
     return (
       <Grid container justifyContent="center">
-        <Grid direction="column" xs={8}>
+        <Grid item xs={8}>
           <AnnounceBox ethSession={this.state.session} />
           <AnnouncementBoard
             announcements={this.state.announcements}
