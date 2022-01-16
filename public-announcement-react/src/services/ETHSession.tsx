@@ -77,9 +77,8 @@ export default class ETHSession {
         'data', 
         function(event: any) {
           const ret = event.returnValues;
-          console.log(event);
           if (ret) {
-            console.log(ret);
+            listener(ret[1]);
           }
         }
       )

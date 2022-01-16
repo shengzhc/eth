@@ -54,6 +54,7 @@ class App extends React.Component<any, AppState> {
   }
 
   _didReceiveAnnouncement(announcement: Announcement) {
+    console.log(announcement);
     var announcements = Array.from(this.state.announcements);
     const findingDuplicate = announcements.find(function(item) {
       return item.nonce == announcement.nonce;
@@ -71,6 +72,7 @@ class App extends React.Component<any, AppState> {
   }
 
   _didRemoveAnnouncementWithNonce(nonce: number) {
+    console.log(nonce);
     var announcements = Array.from(this.state.announcements);
     announcements = announcements.filter(function (item) {
       return item.nonce != nonce;
