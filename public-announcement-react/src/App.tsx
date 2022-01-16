@@ -44,6 +44,11 @@ class App extends React.Component<any, AppState> {
         this._didReceiveAnnouncement(announcement);
       }
     );
+    session.addRemoveListener(
+      (nonce) => {
+        this._didRemoveAnnouncementWithNonce(nonce);
+      }
+    )
   }
 
   _didReceiveAnnouncement(announcement: Announcement) {
@@ -59,6 +64,14 @@ class App extends React.Component<any, AppState> {
     announcements.push(announcement);
     announcements.sort(function(a: Announcement, b: Announcement) {
       return a.nonce > b.nonce ? 1 : -1;
+    });
+    this.setState({ announcements });
+  }
+
+  _didRemoveAnnouncementWithNonce(nonce: number) {
+    var announcements = Array.from(this.state.announcements);
+    announcements = announcements.filter(function (item) {
+      return item.nonce != nonce;
     });
     this.setState({ announcements });
   }

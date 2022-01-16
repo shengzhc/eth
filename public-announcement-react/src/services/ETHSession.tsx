@@ -2,7 +2,7 @@ import Announcement from '../models/Announcement';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
 
-const contractAddress = "0xBD7F1Dec5F9903F5f033D65def122870d6682417";
+const contractAddress = "0x2762034f0a8c7f0b32196F0063fB21e64633afe6";
 const { abi } = require('../contracts/AnnouncementBoard.json');
 
 declare global {
@@ -49,28 +49,47 @@ export default class ETHSession {
     }
 
     this.contract.events.Announce({})
-    .on(
-      'data', 
-      function(event: any) {
-        const ret = event.returnValues;
-        if (ret) {
-          listener(new Announcement(ret[0], ret[1], ret[2]));
+      .on(
+        'data', 
+        function(event: any) {
+          const ret = event.returnValues;
+          if (ret) {
+            listener(new Announcement(ret[0], ret[1], ret[2]));
+          }
         }
-      }
-    )
-    .on(
-      'changed', 
-      function(event: any) {
-        console.log(event);
-      }
-    )
-    .on('error', console.error);
+      )
+      .on(
+        'changed', 
+        function(event: any) {
+          console.log(event);
+        }
+      )
+      .on('error', console.error);
   }
 
-  addRemoveListener(listener: (nItem: Announcement) => void) {
+  addRemoveListener(listener: (nonce: number) => void) {
     if (!this.contract) {
       return;
     }
+
+    this.contract.events.Takedown({})
+      .on(
+        'data', 
+        function(event: any) {
+          const ret = event.returnValues;
+          console.log(event);
+          if (ret) {
+            console.log(ret);
+          }
+        }
+      )
+      .on(
+        'changed', 
+        function(event: any) {
+          console.log(event);
+        }
+      )
+      .on('error', console.error);
   }
 
   async loadAnnouncements(): Promise<Array<Announcement>> {

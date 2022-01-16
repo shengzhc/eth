@@ -25,6 +25,7 @@ contract AnnouncementBoard {
     mapping(uint => Announcement) private takendownAnnouncements;
 
     event Announce(address publisher, string content, uint nonce);
+    event Takedown(address publisher, uint nonce);
 
     constructor(uint _maxAnnouncementCount) {
         maxAnnouncementCount = _maxAnnouncementCount;
@@ -56,7 +57,7 @@ contract AnnouncementBoard {
         return nonce;
     }
 
-    function takedown(uint nonce) public {
+    function takedown(uint nonce) public returns (bool) {
         Announcement memory announcement = announcements[nonce];
         require(
             announcement.nonce > 0,
@@ -70,6 +71,9 @@ contract AnnouncementBoard {
         // Add the announcement to the takendown board.
         takendownAnnouncements[nonce] = announcement;
         takendownAnnouncementCounter++;
+
+        emit Takedown(msg.sender, nonce);
+        return true;
     }
 
     function getAliveAnnouncements()

@@ -53,7 +53,6 @@ describe("AnnouncementBoard contract", function () {
       const firstEvent = firstReceipt.events.find(function (el) {
         return el.event == 'Announce';
       });
-      console.log(firstEvent);
       ethers.utils.defaultAbiCoder.decode(["address", "uint"], firstEvent.data);
     }
   )
